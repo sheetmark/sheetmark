@@ -38,11 +38,11 @@ headline.
 
 ---
 
-## Headline results — Recalc, Sheetmark v1
+## Headline results — Recalc, Sheetmark v2
 
 Measured on the FUSE public corpus (3,640 `.xlsx`/`.xlsm` workbooks, 5,667,851
-formula cells with an oracle value), engine build `66fa5f9`, re-scored
-2026-07-15. Full detail and the dated result set: **[RESULTS.md](RESULTS.md)**.
+formula cells with an oracle value), engine build `f8fd3b7`, re-scored
+2026-07-16. Full detail and the dated result set: **[RESULTS.md](RESULTS.md)**.
 
 A single percentage hides the story, so we publish the whole funnel first — every
 oracle cell in exactly one bucket — then the two figures derived from it. Strict
@@ -51,12 +51,12 @@ carries its conservative bit-exact floor.
 
 | Metric | 15-sig headline | Bit-exact floor |
 |---|---|---|
-| **Engine fidelity** (lenient — of the cells it attempted) | **98.883%** | 97.856% |
-| **Coverage-inclusive** (strict — over every oracle cell) | **75.972%** | 75.183% |
+| **Engine fidelity** (lenient — of the cells it attempted) | **98.884%** | 97.857% |
+| **Coverage-inclusive** (strict — over every oracle cell) | **76.018%** | 75.228% |
 | Genuine disagreements (mismatch cells) | 48,632 | 93,373 |
 
-- **Lenient** is the engine-quality signal: of the 4,354,616 cells Recalc
-  attempted (76.8% of the corpus's oracle cells), how many matched Excel.
+- **Lenient** is the engine-quality signal: of the 4,357,193 cells Recalc
+  attempted (76.9% of the corpus's oracle cells), how many matched Excel.
 - **Strict** is quality × coverage: it counts every declined cell as a miss, so
   it is bounded by how much of the corpus falls inside the engine's declared
   scope — not by whether the math was right.
@@ -71,8 +71,8 @@ precision-as-displayed rounding — not the engine getting the math wrong.
 
 | Bucket | Cells | Share of corpus |
 |---|---:|---:|
-| **Computed and matched** (at the 15-sig tolerance) | 4,305,984 | 75.97% |
-| **Declined loudly** (`#UNSUPPORTED!`, per cell, never guessed) | 1,313,235 | 23.17% |
+| **Computed and matched** (at the 15-sig tolerance) | 4,308,561 | 76.02% |
+| **Declined loudly** (`#UNSUPPORTED!`, per cell, never guessed) | 1,310,658 | 23.12% |
 | **Genuine disagreement** (the only fidelity failure) | 48,632 | 0.86% |
 
 The declined bucket is dominated by **corpus composition, not engine
@@ -80,18 +80,24 @@ correctness**. Its measured by-cause split:
 
 | Cause of decline | Share of declined | Cells |
 |---|---:|---:|
-| External-workbook links (references to other workbooks the corpus doesn't ship) | 73.5% | 965,848 |
-| Shared-formula residual (groups whose master can't yet be expanded) | 16.3% | 213,468 |
-| Unimplemented functions (led by `HYPERLINK`, `ERFC`, `RANK`) | 2.8% | 37,168 |
-| Other (structured references, parse errors, reference-form constructs) | 7.3% | 96,263 |
-| Volatile / UDF / blocked-I/O | <0.1% | 488 |
+| External-workbook links (references to other workbooks the corpus doesn't ship) | 75.23% | 986,069 |
+| Unimplemented functions (led by `NORMDIST`, `HYPERLINK`, `RANK`, `SIN`) | 15.05% | 197,268 |
+| Other (structured references, parse errors, reference-form constructs, runtime refusals) | 9.34% | 122,377 |
+| Shared-formula residual (retired — now 0) | 0.00% | 0 |
+| Volatile / UDF / blocked-I/O | 0.38% | 4,944 |
 
-The single largest class — 73.5% — is cells that reference *other workbooks the
+The single largest class — 75.23% — is cells that reference *other workbooks the
 benchmark does not ship*. Recalc returns `#UNSUPPORTED!` there **correctly**: no
 network and no filesystem from a formula is a hard engine rule, and
 external-workbook resolution is an explicit non-goal. The engine is declining
 for lack of inputs, cell by cell — not getting a calculation wrong. This is why
 strict must never be read as an engine-quality failing without its context.
+
+The second-largest class is **unimplemented functions** — 15.05%, led by
+`NORMDIST`, `HYPERLINK`, `RANK`, and `SIN`: formulas calling functions the engine
+does not yet implement, each declined loudly and never guessed. This is the class
+that shrinks as function coverage grows — the direct measure of the engine's
+remaining scope.
 
 ---
 
@@ -101,7 +107,7 @@ strict must never be read as an engine-quality failing without its context.
   web-crawled spreadsheet corpus. Sheetmark scores the formula-bearing
   `.xlsx`/`.xlsm` cut: 3,640 workbooks, identified and frozen by the publisher's
   per-file SHA-1 manifest.
-- **Oracle.** For v1, each workbook's own last-computed Excel value (the cached
+- **Oracle.** For v2, each workbook's own last-computed Excel value (the cached
   `<v>` Excel wrote into every formula cell) — disclosed plainly, producer-
   heterogeneous, no oracle dependency. A pinned Microsoft 365 build,
   **16.0.20131**, backs the semantic probe experiments that fix the engine's
@@ -132,27 +138,27 @@ competitor run first, and not one minute before.
 - **[METHODOLOGY.md](METHODOLOGY.md)** — the full method: what is measured and how
   it's classified, the two metrics and their denominators, the corpus and oracle,
   the tolerance regime, scope, reproducibility, and the known caveats.
-- **[RESULTS.md](RESULTS.md)** — the dated v1 measured result set. Each re-score
-  mints a new dated result set.
+- **[RESULTS.md](RESULTS.md)** — the dated measured result sets (v2 latest; v1
+  retained below it for the record). Each re-score mints a new dated result set.
 
 ---
 
 ## FAQ
 
 **How accurate is it?**
-On the cells it computes, Recalc matched Excel's stored results on **98.883% of
-the 4,354,616 cells it attempted** — 76.8% of a 5,667,851-cell public corpus — at
-a documented 15-significant-figure tolerance; **97.856% bit-exact** with no
+On the cells it computes, Recalc matched Excel's stored results on **98.884% of
+the 4,357,193 cells it attempted** — 76.9% of a 5,667,851-cell public corpus — at
+a documented 15-significant-figure tolerance; **97.857% bit-exact** with no
 tolerance at all. Genuine disagreements: **48,632 cells, 0.86% of the whole
 corpus**, and a meaningful share of even those is Excel disagreeing with its own
 stored values, not the engine's math. Every cell it can't compute faithfully —
-23.17% of this corpus, 73.5% of it referencing other workbooks we weren't given —
+23.12% of this corpus, 75.23% of it referencing other workbooks we weren't given —
 is declined loudly rather than guessed, so you always know exactly which cells to
 trust.
 
 **Why is the coverage-inclusive (strict) number lower than the engine (lenient)
 number?**
-Because strict counts every declined cell as a miss — and 73.5% of those declines
+Because strict counts every declined cell as a miss — and 75.23% of those declines
 reference other workbooks the corpus doesn't ship (external links). Recalc
 correctly refuses to fabricate those (no network, no filesystem from a formula).
 That's a refusal over missing inputs, not a calculation error. Lenient is the
