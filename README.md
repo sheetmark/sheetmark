@@ -131,7 +131,7 @@ competitor run first, and not one minute before.
 
 - **[METHODOLOGY.md](METHODOLOGY.md)** — the full method: what is measured and how
   it's classified, the two metrics and their denominators, the corpus and oracle,
-  the tolerance regime, scope, reproducibility, and the honest caveats.
+  the tolerance regime, scope, reproducibility, and the known caveats.
 - **[RESULTS.md](RESULTS.md)** — the dated v1 measured result set. Each re-score
   mints a new dated result set.
 
