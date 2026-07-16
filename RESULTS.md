@@ -14,7 +14,7 @@ set**, stamped with its engine build, corpus freeze, oracle path, and tolerance
 mode; the numbers below are frozen at this build and are not edited in place. The
 v1 set (build `66fa5f9`, 2026-07-15) is preserved unchanged further down, for the
 record. For the definitions of every term, the classification rules, and the
-honest caveats, see [METHODOLOGY.md](METHODOLOGY.md).
+known caveats, see [METHODOLOGY.md](METHODOLOGY.md).
 
 All figures publish **verbatim and unrounded**, always strict + lenient together,
 and the 15-significant-figure headline always with its bit-exact floor.
@@ -223,7 +223,7 @@ engine gap, not a scope boundary. Implementing shared-formula expansion (ECMA-37
 **3,072,264 (99.14%) of them match Excel's own cached values**, lifting strict from
 **21.8% to 76.0%** while lenient held (and rose slightly). Expanding those cells
 also *surfaced* **26,639 previously-hidden mismatches** — they were declined before,
-so uncounted — now honestly counted in the 48,632 headline mismatch total. The
+so uncounted — now counted in the 48,632 headline mismatch total. The
 shared-formula residual fell from **2,873,625 to 213,468 cells, a 92.6% reduction**.
 
 The number published is always the one *after* such a fix, never the
