@@ -1,8 +1,9 @@
 # Sheetmark
 
-**A fidelity benchmark for spreadsheet calculation engines: how faithfully
-does an engine reproduce Microsoft Excel's computed results, cell by cell, on a
-fixed public corpus — and does it fail *loudly* or *silently*?**
+**A fidelity benchmark for spreadsheet calculation engines. It measures how
+faithfully an engine reproduces Microsoft Excel's computed results, cell by
+cell, on a fixed public corpus — and whether the engine fails loudly or
+silently on the cells it can't reproduce.**
 
 Sheetmark is the published spreadsheet-recalculation fidelity benchmark from the
 Recalc project. It runs a public corpus of real workbooks through a calculation
@@ -88,10 +89,9 @@ correctness**. Its measured by-cause split:
 The single largest class — 73.5% — is cells that reference *other workbooks the
 benchmark does not ship*. Recalc returns `#UNSUPPORTED!` there **correctly**: no
 network and no filesystem from a formula is a hard engine rule, and
-external-workbook resolution is an explicit non-goal. That is the engine being
-honest that it wasn't given the inputs, cell by cell — not a calculation error.
-This is why strict must never be read as an engine-quality failing without its
-context.
+external-workbook resolution is an explicit non-goal. The engine is declining
+for lack of inputs, cell by cell — not getting a calculation wrong. This is why
+strict must never be read as an engine-quality failing without its context.
 
 ---
 
@@ -111,7 +111,7 @@ context.
   and every 15-sig figure is published alongside its bit-exact floor.
 
 Full definitions, the classification rules, the integrity discipline, and the
-honest caveats: **[METHODOLOGY.md](METHODOLOGY.md)**.
+known caveats: **[METHODOLOGY.md](METHODOLOGY.md)**.
 
 ---
 
@@ -139,7 +139,7 @@ competitor run first, and not one minute before.
 
 ## FAQ
 
-**How accurate is it, honestly?**
+**How accurate is it?**
 On the cells it computes, Recalc matched Excel's stored results on **98.883% of
 the 4,354,616 cells it attempted** — 76.8% of a 5,667,851-cell public corpus — at
 a documented 15-significant-figure tolerance; **97.856% bit-exact** with no
@@ -155,7 +155,7 @@ number?**
 Because strict counts every declined cell as a miss — and 73.5% of those declines
 reference other workbooks the corpus doesn't ship (external links). Recalc
 correctly refuses to fabricate those (no network, no filesystem from a formula).
-That's honesty about missing inputs, not a calculation error. Lenient is the
+That's a refusal over missing inputs, not a calculation error. Lenient is the
 engine-quality signal; strict is quality × coverage, bounded by what the corpus
 asks of the engine's declared scope.
 
@@ -170,7 +170,7 @@ than Excel meets itself*, since Excel doesn't reproduce its own results
 bit-for-bit across versions and platforms. A number measured that strictly is a
 strong claim, not a weak one.
 
-**Is this legal? Was Excel reverse-engineered, or code copied?**
+**Was Excel reverse-engineered, or its code copied?**
 No copied code. Recalc is a clean-room implementation: behavior is observed by
 running a pinned Excel build as an oracle and matching its outputs, never by
 reading a competing spreadsheet's source.
