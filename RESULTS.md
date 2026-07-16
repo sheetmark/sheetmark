@@ -78,8 +78,8 @@ cell by cell.
 The second-largest class is **unimplemented functions** — 15.05%, led by
 `NORMDIST`, `HYPERLINK`, `RANK`, and `SIN`. These are formulas calling functions
 the engine does not yet implement; each is declined loudly, per cell, and none is
-guessed. This is the class that grows as the engine's function coverage grows, and
-it is the direct measure of remaining engine scope.
+guessed. This is the class that shrinks as the engine's function coverage grows,
+and it is the direct measure of remaining engine scope.
 
 ---
 
