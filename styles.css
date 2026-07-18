@@ -116,7 +116,6 @@ h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; font-weight: 650; }
 .hero h1 {
   font-size: clamp(2.1rem, 6.2vw, 3.7rem);
   margin: 0 0 1.3rem;
-  max-width: 20ch;
 }
 .hero h1 .hl { color: var(--matched); }
 @media (prefers-color-scheme: dark) { .hero h1 .hl { color: var(--accent); } }
@@ -355,7 +354,7 @@ table.data td.big { color: var(--ink); font-size: 1.12rem; font-weight: 600; }
   color: var(--accent);
   line-height: 1;
 }
-.faq details[open] summary::after { content: "\2212"; }
+.faq details[open] summary::after { content: "−"; }
 .faq details p {
   margin: 0 0 1.2rem;
   color: var(--ink-soft);
