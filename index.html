@@ -2,19 +2,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Sheetmark — a fidelity benchmark for spreadsheet calculation engines</title>
 <meta name="description" content="Sheetmark scores how faithfully a calculation engine reproduces Microsoft Excel's computed results, cell by cell, on a fixed public corpus — and whether it fails loudly or silently.">
-<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%2313233b'/><rect x='7' y='12' width='18' height='3.4' rx='1.7' fill='%23d1782f'/><rect x='7' y='18' width='18' height='3.4' rx='1.7' fill='%23d1782f'/></svg>">
 <link rel="stylesheet" href="styles.css">
 
 <header class="site">
-  <div class="wrap bar">
-    <a class="brand" href="#top" aria-label="Sheetmark home">
-      <svg class="brand-mark" width="26" height="26" viewBox="0 0 32 32" aria-hidden="true">
-        <rect width="32" height="32" rx="7" fill="currentColor"/>
-        <rect x="7" y="12" width="18" height="3.4" rx="1.7" fill="var(--accent)"/>
-        <rect x="7" y="18" width="18" height="3.4" rx="1.7" fill="var(--accent)"/>
-      </svg>
-      <span class="brand-name">Sheetmark</span>
-    </a>
+  <div class="container bar">
+    <a class="brand" href="#top">Sheetmark</a>
     <nav class="nav">
       <a href="#results">Results</a>
       <a href="#decline">Decline</a>
@@ -26,362 +18,375 @@
 
 <main id="top">
 
-  <section class="hero wrap">
-    <p class="eyebrow">The spreadsheet-recalculation fidelity benchmark</p>
-    <h1>Exactly Excel — or loudly&nbsp;flagged.<br><span class="hl">Never a silent wrong answer.</span></h1>
-    <p class="lede">
-      Sheetmark runs a public corpus of real workbooks through a calculation engine
-      and scores every formula cell against Excel's own computed value. It reports
-      two things a raw percentage never tells you: exactly <em>where</em> an engine
-      diverges, and whether it flags the cells it can't do or quietly returns a
-      wrong number.
-    </p>
-    <div class="cta-row">
-      <a class="btn primary" href="#results">Read the results</a>
-      <a class="btn" href="METHODOLOGY.md">Methodology</a>
-    </div>
+  <section class="hero">
+    <div class="container">
+      <h1>Exactly Excel — or loudly&nbsp;flagged.<br><span class="hl">Never a silent wrong answer.</span></h1>
+      <p class="lede">
+        Sheetmark runs a public corpus of real workbooks through a calculation engine
+        and scores every formula cell against Excel's own computed value. It reports
+        two things a raw percentage never tells you: exactly <em>where</em> an engine
+        diverges, and whether it flags the cells it can't do or quietly returns a
+        wrong number.
+      </p>
+      <div class="cta-row">
+        <a class="btn primary" href="#results">Read the results</a>
+        <a class="btn" href="METHODOLOGY.md">Methodology</a>
+      </div>
 
-    <div class="grid-figure" role="img" aria-label="A grid of cells: most matched exactly, a band declined loudly, one genuine disagreement.">
-      <svg viewBox="0 0 372 132" width="100%" aria-hidden="true">
-        <!-- matched cells -->
-        <g class="cell matched">
-          <rect x="0"   y="0"  width="44" height="30" rx="4"/><rect x="46"  y="0"  width="44" height="30" rx="4"/>
-          <rect x="92"  y="0"  width="44" height="30" rx="4"/><rect x="138" y="0"  width="44" height="30" rx="4"/>
-          <rect x="184" y="0"  width="44" height="30" rx="4"/><rect x="230" y="0"  width="44" height="30" rx="4"/>
-          <rect x="276" y="0"  width="44" height="30" rx="4"/><rect x="322" y="0"  width="44" height="30" rx="4"/>
-          <rect x="0"   y="34" width="44" height="30" rx="4"/><rect x="46"  y="34" width="44" height="30" rx="4"/>
-          <rect x="92"  y="34" width="44" height="30" rx="4"/><rect x="138" y="34" width="44" height="30" rx="4"/>
-          <rect x="184" y="34" width="44" height="30" rx="4"/><rect x="230" y="34" width="44" height="30" rx="4"/>
-          <rect x="0"   y="68" width="44" height="30" rx="4"/><rect x="46"  y="68" width="44" height="30" rx="4"/>
-          <rect x="92"  y="68" width="44" height="30" rx="4"/><rect x="138" y="68" width="44" height="30" rx="4"/>
-        </g>
-        <!-- declined cells -->
-        <g class="cell declined">
-          <rect x="276" y="34" width="44" height="30" rx="4"/><rect x="322" y="34" width="44" height="30" rx="4"/>
-          <rect x="184" y="68" width="44" height="30" rx="4"/><rect x="230" y="68" width="44" height="30" rx="4"/>
-          <rect x="276" y="68" width="44" height="30" rx="4"/>
-          <rect x="0"   y="102" width="44" height="30" rx="4"/><rect x="46" y="102" width="44" height="30" rx="4"/>
-        </g>
-        <!-- mismatch cell -->
-        <g class="cell mismatch">
-          <rect x="322" y="68" width="44" height="30" rx="4"/>
-        </g>
-      </svg>
-      <ul class="grid-legend">
-        <li><span class="swatch matched"></span>Computed and matched</li>
-        <li><span class="swatch declined"></span>Declined loudly</li>
-        <li><span class="swatch mismatch"></span>Genuine disagreement</li>
+      <div class="grid-figure" role="img" aria-label="A grid of cells: most matched exactly, a band declined loudly, one genuine disagreement.">
+        <svg viewBox="0 0 372 132" width="100%" aria-hidden="true">
+          <!-- matched cells -->
+          <g class="cell matched">
+            <rect x="0"   y="0"  width="44" height="30" rx="4"/><rect x="46"  y="0"  width="44" height="30" rx="4"/>
+            <rect x="92"  y="0"  width="44" height="30" rx="4"/><rect x="138" y="0"  width="44" height="30" rx="4"/>
+            <rect x="184" y="0"  width="44" height="30" rx="4"/><rect x="230" y="0"  width="44" height="30" rx="4"/>
+            <rect x="276" y="0"  width="44" height="30" rx="4"/><rect x="322" y="0"  width="44" height="30" rx="4"/>
+            <rect x="0"   y="34" width="44" height="30" rx="4"/><rect x="46"  y="34" width="44" height="30" rx="4"/>
+            <rect x="92"  y="34" width="44" height="30" rx="4"/><rect x="138" y="34" width="44" height="30" rx="4"/>
+            <rect x="184" y="34" width="44" height="30" rx="4"/><rect x="230" y="34" width="44" height="30" rx="4"/>
+            <rect x="0"   y="68" width="44" height="30" rx="4"/><rect x="46"  y="68" width="44" height="30" rx="4"/>
+            <rect x="92"  y="68" width="44" height="30" rx="4"/><rect x="138" y="68" width="44" height="30" rx="4"/>
+          </g>
+          <!-- declined cells -->
+          <g class="cell declined">
+            <rect x="276" y="34" width="44" height="30" rx="4"/><rect x="322" y="34" width="44" height="30" rx="4"/>
+            <rect x="184" y="68" width="44" height="30" rx="4"/><rect x="230" y="68" width="44" height="30" rx="4"/>
+            <rect x="276" y="68" width="44" height="30" rx="4"/>
+            <rect x="0"   y="102" width="44" height="30" rx="4"/><rect x="46" y="102" width="44" height="30" rx="4"/>
+          </g>
+          <!-- mismatch cell -->
+          <g class="cell mismatch">
+            <rect x="322" y="68" width="44" height="30" rx="4"/>
+          </g>
+        </svg>
+        <ul class="grid-legend">
+          <li><span class="swatch matched"></span>Computed and matched</li>
+          <li><span class="swatch declined"></span>Declined loudly</li>
+          <li><span class="swatch mismatch"></span>Genuine disagreement</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="trust">
+    <div class="container">
+      <h2>The property that matters</h2>
+      <p class="section-lede">
+        Every cell an engine reports is either <strong>exactly</strong> what Excel
+        computes at a documented tolerance, or it is explicitly flagged as
+        <strong>not attempted</strong>. Guessing a plausible-looking value is not
+        allowed. A cell an engine declines — returning a distinguishable sentinel
+        such as <code>#UNSUPPORTED!</code> — is scored as not attempted: never
+        counted as a match, and never counted as a fidelity failure.
+      </p>
+      <p class="section-lede">
+        That is a stronger guarantee than "accurate," and it is worth more to anyone
+        who has to defend a number. A 99.99% engine that silently lies on the other
+        0.01% is worse than a 98% engine that tells you precisely which cells it
+        couldn't do. A wrong number you can see is a footnote; a wrong number you
+        can't see is a liability.
+      </p>
+
+      <div class="pillars">
+        <div class="pillar">
+          <h3>A measured number, not an adjective</h3>
+          <p>
+            "Excel-faithful" means measured agreement with Excel's own computed
+            results on a public corpus, at a documented tolerance. Text, logical,
+            and error values match exactly; floating-point results match to a
+            published tolerance.
+          </p>
+        </div>
+        <div class="pillar">
+          <h3>Distinguishable failures, per cell</h3>
+          <p>
+            A declined cell returns a distinguishable <code>#UNSUPPORTED!</code>,
+            scored as not attempted — never a match, never a fidelity failure. You
+            can gate, alert, or reconcile on exactly those cells.
+          </p>
+        </div>
+        <div class="pillar">
+          <h3>A tolerance you can read</h3>
+          <p>
+            Numbers match at 15 significant figures — Excel's own cache-storage
+            precision — and every 15-significant-figure result carries its
+            conservative bit-exact floor. Nothing is fuzzy that was not decided,
+            on purpose, to be.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section band" id="results">
+    <div class="container">
+      <h2>Headline results</h2>
+      <p class="provenance">
+        Recalc, engine build <code>f8fd3b7</code> · FUSE <code>.xlsx</code>/<code>.xlsm</code>
+        cut, 3,640 workbooks, 5,667,851 formula cells with an oracle value ·
+        re-scored 2026-07-16
+      </p>
+      <p class="section-lede">
+        A single percentage hides the story, so the whole funnel comes first — every
+        oracle cell in exactly one bucket — then the two figures derived from it.
+        Strict and lenient always travel together, and the 15-significant-figure
+        headline always carries its conservative bit-exact floor.
+      </p>
+
+      <div class="funnel" role="img" aria-label="Funnel: 76.02% computed and matched, 23.12% declined loudly, 0.86% genuine disagreement.">
+        <div class="funnel-bar">
+          <span class="seg matched" style="width:76.02%"><span class="seg-label">76.02%</span></span>
+          <span class="seg declined" style="width:23.12%"><span class="seg-label">23.12%</span></span>
+          <span class="seg mismatch" style="width:0.86%"></span>
+        </div>
+      </div>
+
+      <div class="buckets">
+        <div class="bucket matched">
+          <p class="bucket-tag">Computed and matched</p>
+          <p class="bucket-num">4,308,561</p>
+          <p class="bucket-sub">cells · 76.02% of corpus</p>
+          <p class="bucket-note">Matched Excel's stored result at the 15-significant-figure tolerance.</p>
+        </div>
+        <div class="bucket declined">
+          <p class="bucket-tag">Declined loudly</p>
+          <p class="bucket-num">1,310,658</p>
+          <p class="bucket-sub">cells · 23.12% of corpus</p>
+          <p class="bucket-note"><code>#UNSUPPORTED!</code>, per cell, never guessed.</p>
+        </div>
+        <div class="bucket mismatch">
+          <p class="bucket-tag">Genuine disagreement</p>
+          <p class="bucket-num">48,632</p>
+          <p class="bucket-sub">cells · 0.86% of corpus</p>
+          <p class="bucket-note">The only bucket that counts as a fidelity failure.</p>
+        </div>
+      </div>
+
+      <div class="table-scroll">
+        <table class="data metrics">
+          <thead>
+            <tr><th scope="col">Metric</th><th scope="col">15-sig headline</th><th scope="col">Bit-exact floor</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Engine fidelity <span class="th-sub">lenient — of the cells it attempted</span></th>
+              <td class="big">98.884%</td><td>97.857%</td>
+            </tr>
+            <tr>
+              <th scope="row">Coverage-inclusive <span class="th-sub">strict — over every oracle cell</span></th>
+              <td class="big">76.018%</td><td>75.228%</td>
+            </tr>
+            <tr>
+              <th scope="row">Genuine disagreements <span class="th-sub">mismatch cells</span></th>
+              <td>48,632</td><td>93,373</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <ul class="notes">
+        <li><strong>Lenient</strong> is the engine-quality signal: of the 4,357,193
+          cells Recalc attempted — 76.9% of the corpus's oracle cells — how many
+          matched Excel.</li>
+        <li><strong>Strict</strong> is quality × coverage: it counts every declined
+          cell as a miss, so it is bounded by how much of the corpus falls inside the
+          engine's declared scope, not by whether the math was right.</li>
       </ul>
+
+      <p class="aside">
+        Neither number implies 100%, and 100% is not the target: a clean 100% is
+        <em>stricter than Excel meets itself</em> — Excel does not reproduce its own
+        results bit-for-bit across versions and platforms — and a meaningful share of
+        the residual is Excel disagreeing with its own stored values, stale caches
+        and precision-as-displayed rounding, not the engine getting the math wrong.
+      </p>
     </div>
   </section>
 
-  <section class="wrap section" id="trust">
-    <h2>The property that matters</h2>
-    <p class="section-lede">
-      Every cell an engine reports is either <strong>exactly</strong> what Excel
-      computes at a documented tolerance, or it is explicitly flagged as
-      <strong>not attempted</strong>. Guessing a plausible-looking value is not
-      allowed. A cell an engine declines — returning a distinguishable sentinel
-      such as <code>#UNSUPPORTED!</code> — is scored as not attempted: never
-      counted as a match, and never counted as a fidelity failure.
-    </p>
-    <p class="section-lede">
-      That is a stronger guarantee than "accurate," and it is worth more to anyone
-      who has to defend a number. A 99.99% engine that silently lies on the other
-      0.01% is worse than a 98% engine that tells you precisely which cells it
-      couldn't do. A wrong number you can see is a footnote; a wrong number you
-      can't see is a liability.
-    </p>
+  <section class="section" id="decline">
+    <div class="container">
+      <h2>The decline, decomposed</h2>
+      <p class="section-lede">
+        The declined bucket is dominated by corpus composition, not engine
+        correctness. Its measured by-cause split:
+      </p>
 
-    <div class="pillars">
-      <div class="pillar">
-        <h3>A measured number, not an adjective</h3>
-        <p>
-          "Excel-faithful" means measured agreement with Excel's own computed
-          results on a public corpus, at a documented tolerance. Text, logical,
-          and error values match exactly; floating-point results match to a
-          published tolerance.
-        </p>
+      <div class="table-scroll">
+        <table class="data decline">
+          <thead>
+            <tr><th scope="col">Cause of decline</th><th scope="col">Share of declined</th><th scope="col">Cells</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">External-workbook links <span class="th-sub">references to other workbooks the corpus doesn't ship</span></th>
+              <td>75.23%</td><td>986,069</td>
+            </tr>
+            <tr>
+              <th scope="row">Unimplemented functions <span class="th-sub">led by <code>NORMDIST</code>, <code>HYPERLINK</code>, <code>RANK</code>, <code>SIN</code></span></th>
+              <td>15.05%</td><td>197,268</td>
+            </tr>
+            <tr>
+              <th scope="row">Other <span class="th-sub">structured references, parse errors, reference-form constructs, runtime refusals</span></th>
+              <td>9.34%</td><td>122,377</td>
+            </tr>
+            <tr>
+              <th scope="row">Volatile / UDF / blocked-I/O</th>
+              <td>0.38%</td><td>4,944</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <div class="pillar">
-        <h3>Distinguishable failures, per cell</h3>
-        <p>
-          A declined cell returns a distinguishable <code>#UNSUPPORTED!</code>,
-          scored as not attempted — never a match, never a fidelity failure. You
-          can gate, alert, or reconcile on exactly those cells.
-        </p>
-      </div>
-      <div class="pillar">
-        <h3>A tolerance you can read</h3>
-        <p>
-          Numbers match at 15 significant figures — Excel's own cache-storage
-          precision — and every 15-significant-figure result carries its
-          conservative bit-exact floor. Nothing is fuzzy that was not decided,
-          on purpose, to be.
-        </p>
-      </div>
+
+      <p class="aside">
+        The single largest class — 75.23% — is cells that reference other workbooks
+        the benchmark does not ship. Recalc returns <code>#UNSUPPORTED!</code> there
+        correctly: no network and no filesystem from a formula is a hard engine rule,
+        and external-workbook resolution is an explicit non-goal. The engine is
+        declining for lack of inputs, cell by cell — not getting a calculation wrong.
+        This is why strict must never be read as an engine-quality failing without
+        its context.
+      </p>
+      <p class="section-lede">
+        The second-largest class is unimplemented functions — 15.05%, led by
+        <code>NORMDIST</code>, <code>HYPERLINK</code>, <code>RANK</code>, and
+        <code>SIN</code>. Each is declined loudly and never guessed. This is the
+        class that shrinks as function coverage grows, and it is the direct measure
+        of the engine's remaining scope. A shared-formula residual that stood at
+        16.3% one result set ago has been retired to zero; its cells were
+        re-attributed to their true downstream causes.
+      </p>
     </div>
   </section>
 
-  <section class="wrap section band" id="results">
-    <h2>Headline results</h2>
-    <p class="provenance">
-      Recalc, engine build <code>f8fd3b7</code> · FUSE <code>.xlsx</code>/<code>.xlsm</code>
-      cut, 3,640 workbooks, 5,667,851 formula cells with an oracle value ·
-      re-scored 2026-07-16
-    </p>
-    <p class="section-lede">
-      A single percentage hides the story, so the whole funnel comes first — every
-      oracle cell in exactly one bucket — then the two figures derived from it.
-      Strict and lenient always travel together, and the 15-significant-figure
-      headline always carries its conservative bit-exact floor.
-    </p>
-
-    <div class="funnel" role="img" aria-label="Funnel: 76.02% computed and matched, 23.12% declined loudly, 0.86% genuine disagreement.">
-      <div class="funnel-bar">
-        <span class="seg matched" style="width:76.02%"><span class="seg-label">76.02%</span></span>
-        <span class="seg declined" style="width:23.12%"><span class="seg-label">23.12%</span></span>
-        <span class="seg mismatch" style="width:0.86%"></span>
+  <section class="section band" id="method">
+    <div class="container">
+      <h2>Corpus, oracle, tolerance</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Corpus</h3>
+          <p>
+            FUSE — Barik, Ford, Murphy-Hill, Zimmermann, MSR 2015 — a public,
+            web-crawled spreadsheet corpus. Sheetmark scores the formula-bearing
+            <code>.xlsx</code>/<code>.xlsm</code> cut: 3,640 workbooks, identified
+            and frozen by the publisher's per-file SHA-1 manifest.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Oracle</h3>
+          <p>
+            Each workbook's own last-computed Excel value — the cached
+            <code>&lt;v&gt;</code> Excel wrote into every formula cell — disclosed
+            plainly, producer-heterogeneous, no oracle dependency. A pinned
+            Microsoft 365 build, <strong>16.0.20131</strong>, backs the semantic
+            probe experiments that fix the engine's behavior.
+          </p>
+        </div>
+        <div class="card">
+          <h3>Tolerance</h3>
+          <p>
+            Text, logical, and error values match exactly. Numbers match when equal
+            to 15 significant figures — Excel's own cache-storage precision — and
+            every 15-significant-figure figure is published alongside its bit-exact
+            floor.
+          </p>
+        </div>
       </div>
+      <p class="doc-links">
+        Full definitions, classification rules, the integrity discipline, and the
+        known caveats: <a href="METHODOLOGY.md">Methodology</a>. The dated measured
+        result sets: <a href="RESULTS.md">Results</a>.
+      </p>
     </div>
-
-    <div class="buckets">
-      <div class="bucket matched">
-        <p class="bucket-tag">Computed and matched</p>
-        <p class="bucket-num">4,308,561</p>
-        <p class="bucket-sub">cells · 76.02% of corpus</p>
-        <p class="bucket-note">Matched Excel's stored result at the 15-significant-figure tolerance.</p>
-      </div>
-      <div class="bucket declined">
-        <p class="bucket-tag">Declined loudly</p>
-        <p class="bucket-num">1,310,658</p>
-        <p class="bucket-sub">cells · 23.12% of corpus</p>
-        <p class="bucket-note"><code>#UNSUPPORTED!</code>, per cell, never guessed.</p>
-      </div>
-      <div class="bucket mismatch">
-        <p class="bucket-tag">Genuine disagreement</p>
-        <p class="bucket-num">48,632</p>
-        <p class="bucket-sub">cells · 0.86% of corpus</p>
-        <p class="bucket-note">The only bucket that counts as a fidelity failure.</p>
-      </div>
-    </div>
-
-    <div class="table-scroll">
-      <table class="data metrics">
-        <thead>
-          <tr><th scope="col">Metric</th><th scope="col">15-sig headline</th><th scope="col">Bit-exact floor</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">Engine fidelity <span class="th-sub">lenient — of the cells it attempted</span></th>
-            <td class="big">98.884%</td><td>97.857%</td>
-          </tr>
-          <tr>
-            <th scope="row">Coverage-inclusive <span class="th-sub">strict — over every oracle cell</span></th>
-            <td class="big">76.018%</td><td>75.228%</td>
-          </tr>
-          <tr>
-            <th scope="row">Genuine disagreements <span class="th-sub">mismatch cells</span></th>
-            <td>48,632</td><td>93,373</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <ul class="notes">
-      <li><strong>Lenient</strong> is the engine-quality signal: of the 4,357,193
-        cells Recalc attempted — 76.9% of the corpus's oracle cells — how many
-        matched Excel.</li>
-      <li><strong>Strict</strong> is quality × coverage: it counts every declined
-        cell as a miss, so it is bounded by how much of the corpus falls inside the
-        engine's declared scope, not by whether the math was right.</li>
-    </ul>
-
-    <p class="aside">
-      Neither number implies 100%, and 100% is not the target: a clean 100% is
-      <em>stricter than Excel meets itself</em> — Excel does not reproduce its own
-      results bit-for-bit across versions and platforms — and a meaningful share of
-      the residual is Excel disagreeing with its own stored values, stale caches
-      and precision-as-displayed rounding, not the engine getting the math wrong.
-    </p>
   </section>
 
-  <section class="wrap section" id="decline">
-    <h2>The decline, decomposed</h2>
-    <p class="section-lede">
-      The declined bucket is dominated by corpus composition, not engine
-      correctness. Its measured by-cause split:
-    </p>
-
-    <div class="table-scroll">
-      <table class="data decline">
-        <thead>
-          <tr><th scope="col">Cause of decline</th><th scope="col">Share of declined</th><th scope="col">Cells</th></tr>
-        </thead>
-        <tbody>
-          <tr>
-            <th scope="row">External-workbook links <span class="th-sub">references to other workbooks the corpus doesn't ship</span></th>
-            <td>75.23%</td><td>986,069</td>
-          </tr>
-          <tr>
-            <th scope="row">Unimplemented functions <span class="th-sub">led by <code>NORMDIST</code>, <code>HYPERLINK</code>, <code>RANK</code>, <code>SIN</code></span></th>
-            <td>15.05%</td><td>197,268</td>
-          </tr>
-          <tr>
-            <th scope="row">Other <span class="th-sub">structured references, parse errors, reference-form constructs, runtime refusals</span></th>
-            <td>9.34%</td><td>122,377</td>
-          </tr>
-          <tr>
-            <th scope="row">Volatile / UDF / blocked-I/O</th>
-            <td>0.38%</td><td>4,944</td>
-          </tr>
-        </tbody>
-      </table>
+  <section class="section" id="leaderboard">
+    <div class="container">
+      <h2>Leaderboard — in measurement</h2>
+      <p class="section-lede">
+        Sheetmark is built as a comparative benchmark: same corpus, same oracle,
+        same tolerance, and the same loud-versus-silent-failure axis for every
+        engine.
+      </p>
+      <p class="section-lede">
+        No competitor number appears here until Sheetmark has actually measured that
+        engine. No engine's figure — including Recalc's own — is ever quoted from
+        memory or from a vendor's own claim. A comparative result requires a measured
+        competitor run first, and not one minute before.
+      </p>
     </div>
-
-    <p class="aside">
-      The single largest class — 75.23% — is cells that reference other workbooks
-      the benchmark does not ship. Recalc returns <code>#UNSUPPORTED!</code> there
-      correctly: no network and no filesystem from a formula is a hard engine rule,
-      and external-workbook resolution is an explicit non-goal. The engine is
-      declining for lack of inputs, cell by cell — not getting a calculation wrong.
-      This is why strict must never be read as an engine-quality failing without
-      its context.
-    </p>
-    <p class="section-lede">
-      The second-largest class is unimplemented functions — 15.05%, led by
-      <code>NORMDIST</code>, <code>HYPERLINK</code>, <code>RANK</code>, and
-      <code>SIN</code>. Each is declined loudly and never guessed. This is the
-      class that shrinks as function coverage grows, and it is the direct measure
-      of the engine's remaining scope. A shared-formula residual that stood at
-      16.3% one result set ago has been retired to zero; its cells were
-      re-attributed to their true downstream causes.
-    </p>
   </section>
 
-  <section class="wrap section band" id="method">
-    <h2>Corpus, oracle, tolerance</h2>
-    <div class="cards">
-      <div class="card">
-        <h3>Corpus</h3>
-        <p>
-          FUSE — Barik, Ford, Murphy-Hill, Zimmermann, MSR 2015 — a public,
-          web-crawled spreadsheet corpus. Sheetmark scores the formula-bearing
-          <code>.xlsx</code>/<code>.xlsm</code> cut: 3,640 workbooks, identified
-          and frozen by the publisher's per-file SHA-1 manifest.
-        </p>
+  <section class="section band" id="faq">
+    <div class="container">
+      <h2>Questions</h2>
+      <div class="faq">
+        <details>
+          <summary>How accurate is it?</summary>
+          <p>
+            On the cells it computes, Recalc matched Excel's stored results on
+            98.884% of the 4,357,193 cells it attempted — 76.9% of a 5,667,851-cell
+            public corpus — at a documented 15-significant-figure tolerance; 97.857%
+            bit-exact with no tolerance at all. Genuine disagreements: 48,632 cells,
+            0.86% of the whole corpus, and a meaningful share of even those is Excel
+            disagreeing with its own stored values, not the engine's math. Every cell
+            it can't compute faithfully — 23.12% of this corpus, 75.23% of it
+            referencing other workbooks we weren't given — is declined loudly rather
+            than guessed, so you always know exactly which cells to trust.
+          </p>
+        </details>
+        <details>
+          <summary>Why is the coverage-inclusive (strict) number lower than the engine (lenient) number?</summary>
+          <p>
+            Because strict counts every declined cell as a miss — and 75.23% of those
+            declines reference other workbooks the corpus doesn't ship (external
+            links). Recalc correctly refuses to fabricate those: no network, no
+            filesystem from a formula. That is a refusal over missing inputs, not a
+            calculation error. Lenient is the engine-quality signal; strict is
+            quality × coverage, bounded by what the corpus asks of the engine's
+            declared scope.
+          </p>
+        </details>
+        <details>
+          <summary>Will an engine ever return a wrong number without flagging it?</summary>
+          <p>
+            That is the one thing the design forbids. Every cell is either exactly
+            Excel's result to the documented tolerance, or a distinguishable
+            <code>#UNSUPPORTED!</code>. Guessing a plausible value is not allowed
+            anywhere in the engine.
+          </p>
+        </details>
+        <details>
+          <summary>What is the number measured against?</summary>
+          <p>
+            Excel's own computed results, at a documented tolerance — a bar that is
+            stricter than Excel meets itself, since Excel doesn't reproduce its own
+            results bit-for-bit across versions and platforms. A number measured that
+            strictly is a strong claim, not a weak one.
+          </p>
+        </details>
+        <details>
+          <summary>Was Excel reverse-engineered, or its code copied?</summary>
+          <p>
+            No copied code. Recalc is a clean-room implementation: behavior is
+            observed by running a pinned Excel build as an oracle and matching its
+            outputs, never by reading a competing spreadsheet's source.
+          </p>
+        </details>
+        <details>
+          <summary>Do I need Excel or Windows to run the engine?</summary>
+          <p>
+            No. The engine is headless and self-contained — no Excel install, no
+            Windows, no GUI automation.
+          </p>
+        </details>
       </div>
-      <div class="card">
-        <h3>Oracle</h3>
-        <p>
-          Each workbook's own last-computed Excel value — the cached
-          <code>&lt;v&gt;</code> Excel wrote into every formula cell — disclosed
-          plainly, producer-heterogeneous, no oracle dependency. A pinned
-          Microsoft 365 build, <strong>16.0.20131</strong>, backs the semantic
-          probe experiments that fix the engine's behavior.
-        </p>
-      </div>
-      <div class="card">
-        <h3>Tolerance</h3>
-        <p>
-          Text, logical, and error values match exactly. Numbers match when equal
-          to 15 significant figures — Excel's own cache-storage precision — and
-          every 15-significant-figure figure is published alongside its bit-exact
-          floor.
-        </p>
-      </div>
-    </div>
-    <p class="doc-links">
-      Full definitions, classification rules, the integrity discipline, and the
-      known caveats: <a href="METHODOLOGY.md">Methodology</a>. The dated measured
-      result sets: <a href="RESULTS.md">Results</a>.
-    </p>
-  </section>
-
-  <section class="wrap section" id="leaderboard">
-    <h2>Leaderboard — in measurement</h2>
-    <p class="section-lede">
-      Sheetmark is built as a comparative benchmark: same corpus, same oracle,
-      same tolerance, and the same loud-versus-silent-failure axis for every
-      engine.
-    </p>
-    <p class="section-lede">
-      No competitor number appears here until Sheetmark has actually measured that
-      engine. No engine's figure — including Recalc's own — is ever quoted from
-      memory or from a vendor's own claim. A comparative result requires a measured
-      competitor run first, and not one minute before.
-    </p>
-  </section>
-
-  <section class="wrap section band" id="faq">
-    <h2>Questions</h2>
-    <div class="faq">
-      <details>
-        <summary>How accurate is it?</summary>
-        <p>
-          On the cells it computes, Recalc matched Excel's stored results on
-          98.884% of the 4,357,193 cells it attempted — 76.9% of a 5,667,851-cell
-          public corpus — at a documented 15-significant-figure tolerance; 97.857%
-          bit-exact with no tolerance at all. Genuine disagreements: 48,632 cells,
-          0.86% of the whole corpus, and a meaningful share of even those is Excel
-          disagreeing with its own stored values, not the engine's math. Every cell
-          it can't compute faithfully — 23.12% of this corpus, 75.23% of it
-          referencing other workbooks we weren't given — is declined loudly rather
-          than guessed, so you always know exactly which cells to trust.
-        </p>
-      </details>
-      <details>
-        <summary>Why is the coverage-inclusive (strict) number lower than the engine (lenient) number?</summary>
-        <p>
-          Because strict counts every declined cell as a miss — and 75.23% of those
-          declines reference other workbooks the corpus doesn't ship (external
-          links). Recalc correctly refuses to fabricate those: no network, no
-          filesystem from a formula. That is a refusal over missing inputs, not a
-          calculation error. Lenient is the engine-quality signal; strict is
-          quality × coverage, bounded by what the corpus asks of the engine's
-          declared scope.
-        </p>
-      </details>
-      <details>
-        <summary>Will an engine ever return a wrong number without flagging it?</summary>
-        <p>
-          That is the one thing the design forbids. Every cell is either exactly
-          Excel's result to the documented tolerance, or a distinguishable
-          <code>#UNSUPPORTED!</code>. Guessing a plausible value is not allowed
-          anywhere in the engine.
-        </p>
-      </details>
-      <details>
-        <summary>What is the number measured against?</summary>
-        <p>
-          Excel's own computed results, at a documented tolerance — a bar that is
-          stricter than Excel meets itself, since Excel doesn't reproduce its own
-          results bit-for-bit across versions and platforms. A number measured that
-          strictly is a strong claim, not a weak one.
-        </p>
-      </details>
-      <details>
-        <summary>Was Excel reverse-engineered, or its code copied?</summary>
-        <p>
-          No copied code. Recalc is a clean-room implementation: behavior is
-          observed by running a pinned Excel build as an oracle and matching its
-          outputs, never by reading a competing spreadsheet's source.
-        </p>
-      </details>
-      <details>
-        <summary>Do I need Excel or Windows to run the engine?</summary>
-        <p>
-          No. The engine is headless and self-contained — no Excel install, no
-          Windows, no GUI automation.
-        </p>
-      </details>
     </div>
   </section>
 
 </main>
 
 <footer class="site-foot">
-  <div class="wrap">
+  <div class="container">
     <p class="trademark">
       Microsoft and Excel are trademarks of the Microsoft group of companies.
       Recalc and Sheetmark are independent projects, not affiliated with,

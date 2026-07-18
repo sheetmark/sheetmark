@@ -58,7 +58,10 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-.wrap {
+/* The single layout container. Every section, the header bar, and the footer
+   put their content inside one of these — sections themselves stay full-width
+   so band backgrounds can bleed edge to edge. */
+.container {
   width: 100%;
   max-width: var(--maxw);
   margin-inline: auto;
@@ -97,16 +100,12 @@ h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; font-weight: 650; }
   gap: 1rem;
 }
 .brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
   color: var(--ink);
   font-weight: 680;
   letter-spacing: -0.02em;
+  font-size: 1.12rem;
 }
 .brand:hover { text-decoration: none; }
-.brand-mark { color: var(--matched); display: block; }
-.brand-name { font-size: 1.12rem; }
 .nav { display: flex; gap: clamp(0.7rem, 2.4vw, 1.7rem); font-size: 0.94rem; }
 .nav a { color: var(--ink-soft); }
 .nav a:hover { color: var(--accent); text-decoration: none; }
@@ -114,14 +113,6 @@ h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; font-weight: 650; }
 /* ---------- Hero ---------- */
 
 .hero { padding-block: clamp(3rem, 8vw, 5.5rem) clamp(2rem, 5vw, 3.5rem); }
-.eyebrow {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin: 0 0 1.1rem;
-}
 .hero h1 {
   font-size: clamp(2.1rem, 6.2vw, 3.7rem);
   margin: 0 0 1.3rem;
@@ -176,20 +167,20 @@ h1, h2, h3 { line-height: 1.15; letter-spacing: -0.02em; font-weight: 650; }
 .swatch.declined { background: var(--declined); }
 .swatch.mismatch { background: var(--mismatch); }
 
-/* ---------- Sections ---------- */
+/* ---------- Sections ----------
+   Sections are full-width blocks; their content always sits in an inner
+   .container. Band sections only add a background and borders — they never
+   change the container geometry. */
 
 .section { padding-block: clamp(2.8rem, 7vw, 4.8rem); }
-.section > h2 {
+.section h2 {
   font-size: clamp(1.6rem, 3.6vw, 2.3rem);
   margin: 0 0 1.2rem;
 }
 .band {
   background: var(--bg-band);
   border-block: 1px solid var(--line);
-  max-width: none;
-  padding-inline: 0;
 }
-.band > * { max-width: var(--maxw); margin-inline: auto; padding-inline: clamp(1.1rem, 4vw, 2.5rem); }
 
 .section-lede {
   font-size: 1.08rem;
@@ -396,7 +387,7 @@ table.data td.big { color: var(--ink); font-size: 1.12rem; font-weight: 600; }
 @media (max-width: 620px) {
   body { font-size: 16px; }
   .nav { gap: 0.9rem; font-size: 0.88rem; }
-  .brand-name { display: none; }
+  .brand { font-size: 1rem; }
   .seg { font-size: 0.8rem; padding-left: 0.5rem; }
   .seg.mismatch { min-width: 4px; }
 }
