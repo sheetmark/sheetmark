@@ -11,7 +11,7 @@ skeptical audit:
 
 This document is the canonical method. It defines what is measured, how each cell
 is classified, the two metrics and their denominators, the corpus and the oracle,
-the tolerance regime, the declared scope, reproducibility, and the honest caveats.
+the tolerance regime, the declared scope, reproducibility, and the known caveats.
 The dated measured result set lives in [RESULTS.md](RESULTS.md).
 
 ---
@@ -58,16 +58,16 @@ scored cell lands in exactly one of five statuses:
   absent a human-gated ULP entry this bucket is empty; see §3).
 - **Mismatch** — a genuine disagreement: the only status that counts as a fidelity
   *failure* and the only one that makes a workbook run "wrong."
-- **EngineUnsupported** — the engine returned one of its own honest sentinels
-  (`#UNSUPPORTED!` / `#BLOCKED!` / `#RESOURCE!`): a declared refusal, not a value
+- **EngineUnsupported** — the engine returned one of its own declared sentinels
+  (`#UNSUPPORTED!` / `#BLOCKED!` / `#RESOURCE!`): an explicit refusal, not a value
   to score. This is the "never silently wrong" principle made mechanical.
 - **NoOracle** — the oracle has no value for this cell at all; unscoreable, and
   reporting anything else would be a fabricated pass.
 
 **Classification order matters.** NoOracle wins first (nothing to judge against),
-then EngineUnsupported (an honest refusal is never scored against the oracle),
-then the by-type comparison. This ordering is what prevents the honest-gap bucket
-from ever masquerading as either a pass or a failure.
+then EngineUnsupported (a declared refusal is never scored against the oracle),
+then the by-type comparison. This ordering is what prevents the declared-gap
+bucket from ever masquerading as either a pass or a failure.
 
 ---
 
@@ -83,7 +83,7 @@ Lenient % = numerator / (total − EngineUnsupported − NoOracle) × 100
 Strict  % = numerator / (total                       − NoOracle) × 100
 ```
 
-- **Lenient** excludes both honest-gap buckets (declared refusals *and* no-oracle
+- **Lenient** excludes both declared-gap buckets (explicit refusals *and* no-oracle
   cells). It answers: **"of the cells we could judge and the engine actually
   attempted, how many matched Excel?"** → the **engine-quality signal**.
 - **Strict** puts every `#UNSUPPORTED!` back into the denominator as a miss. It
@@ -153,12 +153,12 @@ shared-formula expansion (ECMA-376 §18.17.2) moved ~3.10M cells from declined t
 attempted; **3,072,264 (99.14%) of them match Excel's own cached values**, lifting
 strict from **21.8% to 76.0%** while lenient held (and rose slightly). Expanding
 those cells also *surfaced* 26,639 previously-hidden mismatches — they were
-declined before, so uncounted — now honestly counted in the 48,632 headline
+declined before, so uncounted — now counted in full in the 48,632 headline
 mismatch total.
 
 This is the point of decomposing rather than reporting a single number: the
 decomposition is what finds the gaps, and the number published is always the one
-*after* the honest fix — never the flattering-by-omission one before it.
+*after* the fix — never the flattering-by-omission one before it.
 
 Results are also reported at **per-function** and **per-workbook** granularity, so
 a reader can see where *their* functions and *their* workbook shapes land rather
@@ -211,7 +211,7 @@ values for the same root depending on the starting guess, so agreement tighter t
 Excel's own reproducibility is unattainable. These absolute tolerances are **not
 yet mechanically enforced** by the harness (which currently exposes a single global
 ULP knob plus the 15-sig flag); until per-function absolute support lands, IRR/XIRR
-corpus cells score as honest `Mismatch` under strict — disclosed, not silently
+corpus cells score as plain `Mismatch` under strict — disclosed, not silently
 tolerated.
 
 **Tolerance changes are human-gated.** Every tolerance is a human decision with a
@@ -219,7 +219,7 @@ rationale and oracle evidence. Tightening a tolerance (making it stricter) is
 always allowed; weakening one is a logged human decision. Loosening a tolerance to
 pass a test is a hard-rule violation.
 
-**Caveat (honesty).** The 15-sig *storage-precision* rationale is **Excel-specific**.
+**Caveat (disclosed).** The 15-sig *storage-precision* rationale is **Excel-specific**.
 A corpus workbook last saved by a non-Excel producer (for example LibreOffice or
 openpyxl) may carry a non-15-sig cached value; 15 sig figs remains a defensible
 float tolerance there, but the storage-precision argument does not literally apply.
@@ -231,12 +231,26 @@ This connects to the oracle-provenance discussion in §4.
 
 ### The corpus
 
-The measurement corpus is **FUSE** — Barik, Ford, Murphy-Hill, Zimmermann, *"FUSE:
-a reproducible, extendable, internet-scale corpus of spreadsheets"* (MSR 2015): a
-public, web-crawled spreadsheet corpus. Sheetmark pins the verified source artifact
-and the publisher's per-file SHA-1 manifest (`fuse-all.sha1.sorted-dec2014.txt`).
-The SHA-1 manifest is the corpus's **canonical identity and integrity check**,
-provided source-side.
+The measurement corpus is **FUSE** — Barik, Lubick, Smith, Slankas, Murphy-Hill,
+*"FUSE: a reproducible, extendable, internet-scale corpus of spreadsheets"* (MSR
+2015): a public, web-crawled spreadsheet corpus. Sheetmark pins the verified
+source artifact and the publisher's per-file SHA-1 manifest
+(`fuse-all.sha1.sorted-dec2014.txt`). The SHA-1 manifest is the corpus's
+**canonical identity and integrity check**, provided source-side.
+
+**Corpus licensing, stated precisely.** Two FUSE distributions exist and they
+carry different license statements, so Sheetmark cites both rather than
+collapsing them into one claim. The corpus's canonical **Zenodo record**
+([DOI 10.5281/zenodo.581678](https://doi.org/10.5281/zenodo.581678); authors
+Barik, Lubick, Smith, Slankas, Murphy-Hill; the full web + binary bundle) is
+published under **CC BY 4.0** per the record's metadata. The **binaries
+distribution Sheetmark actually pins** — the publisher's `dec2014` tarball at
+barik.net, from which the 3,640-workbook cut is extracted — carries no CC-BY
+marking; its publisher describes the corpus as *"unencumbered by any license
+agreements, available to all."* Either statement covers the corpus compilation,
+not the copyrights of the underlying web-crawled workbooks; Sheetmark therefore
+never redistributes the workbooks and publishes only aggregate statistics and
+per-cell match/mismatch facts.
 
 FUSE is mixed-format. Only the **`.xlsx`/`.xlsm` subset is scoreable via the
 cached-value path today** (the legacy `.xls` majority requires a licensed Excel
@@ -283,7 +297,7 @@ credibility:
    the engine's recomputed value against it. A formula cell whose cached value is
    blank is treated as **NoOracle**, never a fabricated pass, because a
    genuinely-computed Excel formula always writes a value. This path needs **no
-   oracle dependency**. Its honest limitation: the cached value was written by
+   oracle dependency**. Its disclosed limitation: the cached value was written by
    *whatever producer last saved each workbook*, which for a web-crawled corpus is
    heterogeneous (Excel of various vintages, and sometimes non-Excel producers — see
    the §3 caveat). It is Excel's own answer where Excel saved the file, which is the
@@ -363,8 +377,8 @@ credibility depends on staying on the right side of it:
   product's *declared* scope (self-contained workbooks; no external-workbook
   resolution, no VBA/add-in execution), **decided on principle and frozen before
   seeing the payoff**, and reporting out-of-scope cells as a separate not-attempted
-  line rather than as failures. This is standard conformance practice and honest
-  *only* under that discipline.
+  line rather than as failures. This is standard conformance practice and
+  defensible *only* under that discipline.
 
 If a strict headline that is not misleadingly pessimistic is ever wanted, the only
 legitimate routes are (a) a frozen in-scope corpus cut defined and frozen before
@@ -401,7 +415,7 @@ measuring its payoff, or (b) raising real coverage — **never** pruning hard ca
 
 ---
 
-## 7. Honest caveats
+## 7. Known caveats
 
 None of these are excuses; they are disclosed because a benchmark that hides them is
 not measuring what it claims to.
