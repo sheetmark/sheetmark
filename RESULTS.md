@@ -1,3 +1,142 @@
+# Sheetmark Results — v3
+
+**Engine:** Recalc, build `bbb6984`
+**Corpus:** FUSE `.xlsx`/`.xlsm` cut — 3,640 workbooks, 5,667,851 formula cells
+with an oracle value
+**Oracle:** cached-value path (each workbook's own last-computed Excel value)
+**Tolerance:** 15 significant figures (headline), with the bit-exact floor
+published alongside
+**Result set dated:** 2026-07-19 (two function-coverage waves since v2 plus an
+ERFC behavioral fix; zero load failures)
+
+This is the v3 measured result set. **Each full re-score mints a new dated result
+set**, stamped with its engine build, corpus freeze, oracle path, and tolerance
+mode; the numbers below are frozen at this build and are not edited in place. The
+v2 set (build `f8fd3b7`, 2026-07-16) and the v1 set (build `66fa5f9`, 2026-07-15)
+are preserved unchanged further down, for the record. For the definitions of every
+term, the classification rules, and the known caveats, see
+[METHODOLOGY.md](METHODOLOGY.md).
+
+All figures publish **verbatim and unrounded**, always strict + lenient together,
+and the 15-significant-figure headline always with its bit-exact floor.
+
+This result set is also the basis of the first measured engine comparison — see
+[LEADERBOARD.md](LEADERBOARD.md), which places these numbers next to LibreOffice,
+pycel, and formulas measured on the same corpus, the same oracle, and the same
+classification rules.
+
+---
+
+## The funnel — every oracle cell in exactly one bucket
+
+| Bucket | Cells | Share of corpus |
+|---|---:|---:|
+| **Computed and matched** (at the 15-sig tolerance) | 4,471,255 | 78.89% |
+| **Declined loudly** (`#UNSUPPORTED!`, per cell, never guessed) | 1,134,795 | 20.02% |
+| **Genuine disagreement** (the only fidelity failure) | 61,801 | 1.09% |
+| **Total oracle cells** | 5,667,851 | 100% |
+
+Attempted cells (the lenient denominator) number **4,533,056 — 79.98%** of the
+5,667,851 oracle cells. Every other cell is declined loudly, per cell, never
+guessed.
+
+---
+
+## Fidelity — both metrics, both tolerances
+
+| Metric | 15-sig headline | Bit-exact floor |
+|---|---|---|
+| **Engine fidelity** (lenient — on attempted cells) | **98.637%** (= 4,471,255 / 4,533,056) | 97.497% (= 4,419,598 / 4,533,056) |
+| **Coverage-inclusive** (strict — over all oracle cells) | **78.888%** (= 4,471,255 / 5,667,851) | 77.977% (= 4,419,598 / 5,667,851) |
+| Mismatch cells | 61,801 | 113,458 |
+
+- **Lenient** is the engine-quality signal — of the cells the engine attempted,
+  how many matched Excel.
+- **Strict** is quality × coverage — it counts every declined cell as a miss, so
+  it is bounded by how much of the corpus falls inside the engine's declared
+  scope, not by whether the math was right.
+
+---
+
+## The declined bucket, by cause
+
+The declined bucket (1,134,795 cells, 20.02% of the corpus) is dominated by corpus
+composition, not engine correctness. Its measured full-corpus decomposition:
+
+| Cause of decline | Share of declined | Cells |
+|---|---:|---:|
+| External-workbook links (references to other workbooks the corpus doesn't ship) | 86.90% | 986,069 |
+| Unimplemented functions (led by `TTEST`, `MMULT`, `COUNTBLANK`, `ATAN2`, `CHAR`) | 0.58% | 6,616 |
+| Other (structured references 28,065 · reference-form and construct refusals 61,762 · post-expansion runtime refusals 44,384 · parse errors 2,974) | 12.09% | 137,185 |
+| Volatile / UDF / blocked-I/O / array residual | 0.43% | 4,925 |
+
+*(Rows sum to the declined total exactly: 986,069 + 6,616 + 137,185 + 4,925
+= 1,134,795.)*
+
+The single largest class — 86.90% — is cells referencing *other workbooks the
+benchmark does not ship*. The engine returns `#UNSUPPORTED!` there correctly: no
+network and no filesystem from a formula is a hard rule, and external-workbook
+resolution is a declared non-goal. That dominant class is not the engine getting a
+calculation wrong; the engine is declining for lack of inputs, and saying so
+cell by cell.
+
+The **unimplemented-function class** — the second-largest cause in v2 at 197,268
+cells (15.05% of declined) — now stands at **6,616 cells (0.58%)**, led by
+`TTEST`, `MMULT`, `COUNTBLANK`, `ATAN2`, and `CHAR`. This is the class that
+shrinks as the engine's function coverage grows, and it is the direct measure of
+remaining engine scope.
+
+---
+
+## Genuine disagreement
+
+**61,801 cells — 1.09% of the corpus** — at the 15-significant-figure tolerance
+(**113,458 cells** bit-exact). This is the only bucket that counts as a fidelity
+failure. A meaningful share of even this residual is Excel disagreeing with its own
+stored values — stale `.xls`-conversion caches and precision-as-displayed rounding
+— rather than the engine's math (see the caveats in [METHODOLOGY.md](METHODOLOGY.md)),
+so the published residual is an upper bound on genuine engine disagreement. Every
+mismatch cell carries a per-cell attribution; more than three-quarters of the
+15-sig mismatch mass is small-magnitude numeric divergence (relative error below
+1e-4) concentrated in a small number of accumulation-order clusters.
+
+---
+
+## What changed vs v2
+
+Two function-coverage waves plus one behavioral fix, with the deltas conserving
+exactly.
+
+1. **Two engine waves — twenty newly implemented functions plus
+   shared-formula-expansion and evaluation fixes — moved 175,863 cells out of the
+   declined bucket** (1,310,658 → 1,134,795). Every cell that left the declined set became
+   an attempted cell: exact rose by 162,694 (15-sig) / 155,778 (bit-exact) and
+   mismatch rose by 13,169 (15-sig) / 20,085 (bit-exact) — 162,694 + 13,169 =
+   155,778 + 20,085 = 175,863, to the last cell in both modes. The
+   unimplemented-function decline class fell from 197,268 to 6,616 cells; the
+   functions that led it in v2 (`NORMDIST`, `HYPERLINK`, `RANK`, `SIN`) are all
+   implemented, and the second wave (`COS`, `ACOS`, `ASIN`, `ATAN`, `TRUNC`,
+   `LOG`, `FLOOR`, `SEARCH`, `PROPER`) cleared the next tier.
+
+2. **One behavioral fix: `ERFC` now tracks Excel's computation sequence** (a
+   naive `exp(-x²)` formulation rather than a split-argument one), converting part
+   of the previous `ERFC` mismatch mass into exact matches within
+   already-attempted cells (6,776 → 4,939 mismatch cells at 15-sig; 8,037 → 6,341
+   bit-exact, confirmed cell-for-cell against the prior dump). The residual `ERFC`
+   divergence concentrates 96.9% in a single cancellation-conditioned workbook and
+   remains counted as mismatch.
+
+3. **Net effect on the headline pair.** Strict rose **+2.870 pp** (76.018% →
+   78.888%) at 15-sig and **+2.749 pp** (75.228% → 77.977%) bit-exact — 175,863
+   more corpus cells are attempted and most of them are correct. Lenient moved
+   **−0.247 pp** (98.884% → 98.637%) at 15-sig and **−0.360 pp** (97.857% →
+   97.497%) bit-exact, because the newly attempted cells enter the lenient
+   denominator carrying their own mismatch rate. Both directions are published;
+   the number reported is always the one after the change, never the
+   flattering-by-omission one before it.
+
+---
+
 # Sheetmark Results — v2
 
 **Engine:** Recalc, build `f8fd3b7`
