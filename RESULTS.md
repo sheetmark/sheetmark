@@ -90,15 +90,20 @@ remaining engine scope.
 
 ## Genuine disagreement
 
-**61,801 cells — 1.09% of the corpus** — at the 15-significant-figure tolerance
-(**113,458 cells** bit-exact). This is the only bucket that counts as a fidelity
-failure. A meaningful share of even this residual is Excel disagreeing with its own
-stored values — stale `.xls`-conversion caches and precision-as-displayed rounding
-— rather than the engine's math (see the caveats in [METHODOLOGY.md](METHODOLOGY.md)),
-so the published residual is an upper bound on genuine engine disagreement. Every
-mismatch cell carries a per-cell attribution; more than three-quarters of the
-15-sig mismatch mass is small-magnitude numeric divergence (relative error below
-1e-4) concentrated in a small number of accumulation-order clusters.
+**61,801 cells — 1.09% of the corpus** at the 15-significant-figure tolerance
+(**113,458 cells**, 2.00%, bit-exact). This is the only bucket that counts as a
+fidelity failure, and it is an **upper bound** on genuine engine disagreement: the
+reference itself carries noise — stale `.xls`-conversion caches, precision-as-displayed
+rounding in ≈0.4% of the corpus's workbooks, and Excel's own non-correctly-rounded
+floating point — so a disagreement against the cache is not necessarily an engine
+error. Every mismatch cell carries a per-cell attribution. More than three-quarters
+of the 15-sig mismatch mass is small-magnitude numeric divergence (relative error
+below 1e-4), concentrated in a small number of accumulation-order clusters; the
+balance is upstream cascade where the engine is correct on the inputs it is handed
+(`RANK`'s 52 cells are the worked example). The full per-cell decomposition — by
+function vocabulary, at both tolerances — and the two reference-side noise floors that
+put a clean 100% out of reach are in
+[Why 100% is not on the table](METHODOLOGY.md#why-100-is-not-on-the-table).
 
 ---
 

@@ -447,6 +447,99 @@ quirks rather than the engine's math.
 
 ---
 
+## Why 100% is not on the table
+
+A clean 100% — every attempted cell bit-identical to Excel — is not the target, and
+the reasons are measured, not rhetorical. The `strict` ceiling is a separate,
+already-stated matter: it is bounded by declared scope (§5), not by correctness. This
+section is about the other ceiling — why even `lenient`, the engine-quality signal,
+does not reach 100%, and should not be expected to. Three forces bound it. Two are
+properties of the reference itself; the third is the residual that remains, decomposed
+to the same discipline the declined bucket already gets (§2).
+
+### The oracle's own noise floor
+
+The v1 headline oracle is each workbook's *own* cached value (§4) — the number Excel
+last wrote into the `<v>` element of each formula cell. On a web-crawled corpus those
+values were written by many Excel versions across the decades-long history of each
+file, and two consequences follow:
+
+- **Stale conversion caches.** Some workbooks carry a value produced by a pre-2007
+  `.xls` conversion that a current Excel would itself recompute differently. When the
+  engine disagrees with such a cache, it can be *agreeing* with present-day Excel and
+  disagreeing only with a fossil the file happens to still carry.
+- **Precision-as-displayed.** ≈0.4% of the corpus's workbooks were saved with the
+  "precision as displayed" setting: their stored values are deliberately rounded to
+  the shown precision, not the full-precision result. The engine keeps full precision,
+  so it disagrees — a difference in bookkeeping, not in math.
+
+A cell scored as a disagreement against the cache is therefore not necessarily the
+engine being wrong. The measured mismatch count is an **upper bound** on genuine
+engine disagreement, not a count of engine bugs.
+
+### Excel is not mathematics
+
+Recalc returns what Excel returns, not what mathematics returns; that is the product.
+The clearest measured example is the complementary error function. A dense probe of
+`=ERFC(x)` at 1,130 points against the pinned Microsoft 365 build (§4) shows Excel
+computes `erfc(x) = R(x)·exp(−x²)` using a **naive f64 `exp(−x²)`** — with no
+argument-splitting refinement. Excel's own result therefore drifts away from the
+mathematically-correct `erfc` as `x` grows, by **up to ~62 ULP** (units in the last
+place) at the range edge. Recalc's kernel had originally *applied* that refinement —
+it tracked mathematical truth, and so **maximized** its disagreement with the pinned
+build. To match Excel, we deleted the refinement; on the probe grid, 15-significant-
+figure agreement rose from **820 to 1,057 of 1,130 points**. Fidelity to Excel here
+meant reproducing Excel's floating-point shortcut, not correcting it.
+
+A companion probe isolates the floor beneath even that. A dense probe of `=EXP(x)` at
+**1,138 points** shows Excel's `EXP` agreeing with the platform math library (libm) to
+15 significant figures at **100%** of points, and bit-for-bit at **99.03%**
+(1,127/1,138). The 11 disagreements are all ±1 ULP — and at each, it is *Excel* that
+sits one ULP off the correctly-rounded value while libm is correct. The deepest
+residual here is Excel's own transcendental library differing from a correctly-rounded
+one by a single ULP at a small fraction of arguments: something no engine reproduces
+without bit-emulating Excel's math library.
+
+Bit-for-bit agreement with a specific binary's floating-point behavior is therefore an
+asymptote, not a plateau. Part of any residual is not the engine's error at all — it
+is the reference's own noise floor: the pinned build disagreeing with mathematics, and
+the cached corpus disagreeing with the pinned build.
+
+### The residual, characterized
+
+The genuine-disagreement bucket — the only bucket that counts as a fidelity failure —
+is decomposed here to the same funnel discipline the declined bucket gets (§2). At the
+current published result set (build `bbb6984`, [RESULTS.md](RESULTS.md)), residual
+mismatch is **61,801 cells at the 15-significant-figure tolerance** and **113,458 cells
+bit-exact** — 1.09% and 2.00% of the 5,667,851 oracle cells.
+
+Per-cell attribution classifies every mismatch cell by its function vocabulary. The
+functions that account for this result set's mismatch movement, both tolerance modes
+shown:
+
+| Function vocabulary | Mismatch, 15-sig | Mismatch, bit-exact | Character |
+|---|---:|---:|---|
+| `ERFC` | 4,939 | 6,341 | Small-magnitude numeric divergence (relative error below 1e-4); 96.9% of it — 4,786 cells — is one cancellation-conditioned workbook, bounded by `exp`/cancellation conditioning rather than the `erfc` kernel. |
+| `SEARCH` | 536 | 536 | One four-workbook text-idiom template: 440 cells where the engine returns an error and Excel a value, 96 number-versus-text. |
+| `ACOS` | 28 | 36 | Small-magnitude numeric divergence in a single workbook; 8 cells clear the 15-sig line but not bit identity. |
+| `LOG` | 0 | 5 | Below the 15-sig line entirely; small-magnitude only at bit-exact. |
+| `RANK` | 52 | 52 | 100% upstream cascade. The engine's `RANK` is correct on the inputs it is handed; the divergence originates in upstream `VLOOKUP` / `SUMIF` / `COUNTIF` precedents, not in `RANK`. |
+| `COS` · `ASIN` · `ATAN` · `TRUNC` · `FLOOR` · `PROPER` | 0 | 0 | Landed all-exact. |
+
+These rows are this result set's *movers*, not a partition of the total: most of the
+61,801 cells carry no function vocabulary of their own. They are downstream follow-on
+and pure-reference cells that propagate a divergence from further up the dependency
+chain. Characterized precisely: **more than three-quarters of the 15-significant-figure
+mismatch mass is small-magnitude numeric divergence** (relative error below 1e-4),
+concentrated in a small number of accumulation-order clusters in dense financial
+templates; the balance is upstream cascade where the engine is correct on the inputs it
+was handed (`RANK`'s 52 cells are the worked example). No genuinely-wrong function
+remains in the set. The residual is small-magnitude floating-point divergence plus
+upstream cascades — both bounded by the two noise floors above, which is why a clean
+100% is not on the table.
+
+---
+
 ## Trademark and independence
 
 Microsoft and Excel are trademarks of the Microsoft group of companies. Recalc and

@@ -61,11 +61,18 @@ carries its conservative bit-exact floor.
   it is bounded by how much of the corpus falls inside the engine's declared
   scope — not by whether the math was right.
 
-Neither number implies 100%, and 100% is not the target: a clean 100% is
-*stricter than Excel meets itself* (Excel does not reproduce its own results
-bit-for-bit across versions and platforms), and a meaningful share of the
-residual is Excel disagreeing with its *own* stored values — stale caches and
-precision-as-displayed rounding — not the engine getting the math wrong.
+Neither number implies 100%, and 100% is not the target — for reasons that are
+measured, not rhetorical. A clean 100% is *stricter than Excel meets itself*:
+Excel does not reproduce its own results bit-for-bit across versions and
+platforms, and its own arithmetic is not mathematics — a dense probe of
+`=ERFC(x)` at 1,130 points found Excel's error function drifting up to ~62 ULP
+off the mathematically-correct value, so Recalc had to *delete* a precision
+refinement to match it. Recalc returns what Excel returns, not what mathematics
+returns. And part of the residual is the oracle itself being stale — a pre-2007
+conversion cache, or precision-as-displayed rounding — where the engine's answer
+is arguably the more correct one. The full argument, decomposed to the same
+discipline as the declined bucket:
+**[why 100% is not on the table — measured](METHODOLOGY.md#why-100-is-not-on-the-table)**.
 
 ### The funnel — every oracle cell in exactly one bucket
 
@@ -161,8 +168,9 @@ On the cells it computes, Recalc matched Excel's stored results on **98.637% of
 the 4,533,056 cells it attempted** — 80.0% of a 5,667,851-cell public corpus — at
 a documented 15-significant-figure tolerance; **97.497% bit-exact** with no
 tolerance at all. Genuine disagreements: **61,801 cells, 1.09% of the whole
-corpus**, and a meaningful share of even those is Excel disagreeing with its own
-stored values, not the engine's math. Every cell it can't compute faithfully —
+corpus** — an upper bound on engine error, because it also counts Excel
+disagreeing with its own stored values (stale caches, precision-as-displayed
+rounding). Every cell it can't compute faithfully —
 20.02% of this corpus, 86.90% of it referencing other workbooks we weren't given —
 is declined loudly rather than guessed, so you always know exactly which cells to
 trust.
@@ -184,8 +192,11 @@ a plausible value is not allowed anywhere in the engine.
 **What is the number measured against?**
 Excel's own computed results, at a documented tolerance — a bar that is *stricter
 than Excel meets itself*, since Excel doesn't reproduce its own results
-bit-for-bit across versions and platforms. A number measured that strictly is a
-strong claim, not a weak one.
+bit-for-bit across versions and platforms, and its own floating-point arithmetic
+diverges from mathematical truth (measured: up to ~62 ULP on `ERFC`). A number
+measured that strictly is a strong claim, not a weak one — and it is why a clean
+100% is not on the table:
+**[the measured argument](METHODOLOGY.md#why-100-is-not-on-the-table)**.
 
 **Was Excel reverse-engineered, or its code copied?**
 No copied code. Recalc is a clean-room implementation: behavior is observed by
