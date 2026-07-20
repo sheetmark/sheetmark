@@ -114,7 +114,7 @@ grows — the direct measure of the engine's remaining scope.
   public, web-crawled spreadsheet corpus. Sheetmark scores the formula-bearing
   `.xlsx`/`.xlsm` cut: 3,640 workbooks, identified and frozen by the publisher's
   per-file SHA-1 manifest.
-- **Oracle.** For v2, each workbook's own last-computed Excel value (the cached
+- **Oracle.** For every result set to date, each workbook's own last-computed Excel value (the cached
   `<v>` Excel wrote into every formula cell) — disclosed plainly, producer-
   heterogeneous, no oracle dependency. A pinned Microsoft 365 build,
   **16.0.20131**, backs the semantic probe experiments that fix the engine's
