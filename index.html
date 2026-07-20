@@ -122,9 +122,9 @@
     <div class="container">
       <h2>Headline results</h2>
       <p class="provenance">
-        Recalc, engine build <code>f8fd3b7</code> · FUSE <code>.xlsx</code>/<code>.xlsm</code>
+        Recalc, engine build <code>bbb6984</code> · FUSE <code>.xlsx</code>/<code>.xlsm</code>
         cut, 3,640 workbooks, 5,667,851 formula cells with an oracle value ·
-        re-scored 2026-07-16
+        re-scored 2026-07-19
       </p>
       <p class="section-lede">
         A single percentage hides the story, so the whole funnel comes first — every
@@ -133,31 +133,31 @@
         headline always carries its conservative bit-exact floor.
       </p>
 
-      <div class="funnel" role="img" aria-label="Funnel: 76.02% computed and matched, 23.12% declined loudly, 0.86% genuine disagreement.">
+      <div class="funnel" role="img" aria-label="Funnel: 78.89% computed and matched, 20.02% declined loudly, 1.09% genuine disagreement.">
         <div class="funnel-bar">
-          <span class="seg matched" style="width:76.02%"><span class="seg-label">76.02%</span></span>
-          <span class="seg declined" style="width:23.12%"><span class="seg-label">23.12%</span></span>
-          <span class="seg mismatch" style="width:0.86%"></span>
+          <span class="seg matched" style="width:78.89%"><span class="seg-label">78.89%</span></span>
+          <span class="seg declined" style="width:20.02%"><span class="seg-label">20.02%</span></span>
+          <span class="seg mismatch" style="width:1.09%"></span>
         </div>
       </div>
 
       <div class="buckets">
         <div class="bucket matched">
           <p class="bucket-tag">Computed and matched</p>
-          <p class="bucket-num">4,308,561</p>
-          <p class="bucket-sub">cells · 76.02% of corpus</p>
+          <p class="bucket-num">4,471,255</p>
+          <p class="bucket-sub">cells · 78.89% of corpus</p>
           <p class="bucket-note">Matched Excel's stored result at the 15-significant-figure tolerance.</p>
         </div>
         <div class="bucket declined">
           <p class="bucket-tag">Declined loudly</p>
-          <p class="bucket-num">1,310,658</p>
-          <p class="bucket-sub">cells · 23.12% of corpus</p>
+          <p class="bucket-num">1,134,795</p>
+          <p class="bucket-sub">cells · 20.02% of corpus</p>
           <p class="bucket-note"><code>#UNSUPPORTED!</code>, per cell, never guessed.</p>
         </div>
         <div class="bucket mismatch">
           <p class="bucket-tag">Genuine disagreement</p>
-          <p class="bucket-num">48,632</p>
-          <p class="bucket-sub">cells · 0.86% of corpus</p>
+          <p class="bucket-num">61,801</p>
+          <p class="bucket-sub">cells · 1.09% of corpus</p>
           <p class="bucket-note">The only bucket that counts as a fidelity failure.</p>
         </div>
       </div>
@@ -170,23 +170,23 @@
           <tbody>
             <tr>
               <th scope="row">Engine fidelity <span class="th-sub">lenient — of the cells it attempted</span></th>
-              <td class="big">98.884%</td><td>97.857%</td>
+              <td class="big">98.637%</td><td>97.497%</td>
             </tr>
             <tr>
               <th scope="row">Coverage-inclusive <span class="th-sub">strict — over every oracle cell</span></th>
-              <td class="big">76.018%</td><td>75.228%</td>
+              <td class="big">78.888%</td><td>77.977%</td>
             </tr>
             <tr>
               <th scope="row">Genuine disagreements <span class="th-sub">mismatch cells</span></th>
-              <td>48,632</td><td>93,373</td>
+              <td>61,801</td><td>113,458</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <ul class="notes">
-        <li><strong>Lenient</strong> is the engine-quality signal: of the 4,357,193
-          cells Recalc attempted — 76.9% of the corpus's oracle cells — how many
+        <li><strong>Lenient</strong> is the engine-quality signal: of the 4,533,056
+          cells Recalc attempted — 79.98% of the corpus's oracle cells — how many
           matched Excel.</li>
         <li><strong>Strict</strong> is quality × coverage: it counts every declined
           cell as a miss, so it is bounded by how much of the corpus falls inside the
@@ -219,26 +219,26 @@
           <tbody>
             <tr>
               <th scope="row">External-workbook links <span class="th-sub">references to other workbooks the corpus doesn't ship</span></th>
-              <td>75.23%</td><td>986,069</td>
+              <td>86.90%</td><td>986,069</td>
             </tr>
             <tr>
-              <th scope="row">Unimplemented functions <span class="th-sub">led by <code>NORMDIST</code>, <code>HYPERLINK</code>, <code>RANK</code>, <code>SIN</code></span></th>
-              <td>15.05%</td><td>197,268</td>
+              <th scope="row">Other <span class="th-sub">structured references, reference-form and construct refusals, post-expansion runtime refusals, parse errors</span></th>
+              <td>12.09%</td><td>137,185</td>
             </tr>
             <tr>
-              <th scope="row">Other <span class="th-sub">structured references, parse errors, reference-form constructs, runtime refusals</span></th>
-              <td>9.34%</td><td>122,377</td>
+              <th scope="row">Unimplemented functions <span class="th-sub">led by <code>TTEST</code>, <code>MMULT</code>, <code>COUNTBLANK</code>, <code>ATAN2</code>, <code>CHAR</code></span></th>
+              <td>0.58%</td><td>6,616</td>
             </tr>
             <tr>
-              <th scope="row">Volatile / UDF / blocked-I/O</th>
-              <td>0.38%</td><td>4,944</td>
+              <th scope="row">Volatile / UDF / blocked-I/O / array residual</th>
+              <td>0.43%</td><td>4,925</td>
             </tr>
           </tbody>
         </table>
       </div>
 
       <p class="aside">
-        The single largest class — 75.23% — is cells that reference other workbooks
+        The single largest class — 86.90% — is cells that reference other workbooks
         the benchmark does not ship. Recalc returns <code>#UNSUPPORTED!</code> there
         correctly: no network and no filesystem from a formula is a hard engine rule,
         and external-workbook resolution is an explicit non-goal. The engine is
@@ -247,13 +247,15 @@
         its context.
       </p>
       <p class="section-lede">
-        The second-largest class is unimplemented functions — 15.05%, led by
-        <code>NORMDIST</code>, <code>HYPERLINK</code>, <code>RANK</code>, and
-        <code>SIN</code>. Each is declined loudly and never guessed. This is the
-        class that shrinks as function coverage grows, and it is the direct measure
-        of the engine's remaining scope. A shared-formula residual that stood at
-        16.3% one result set ago has been retired to zero; its cells were
-        re-attributed to their true downstream causes.
+        The unimplemented-function class — the second-largest cause one result set
+        ago at 15.05% (197,268 cells) — has collapsed to 0.58% (6,616 cells) as two
+        waves of function coverage landed, now led by <code>TTEST</code>,
+        <code>MMULT</code>, <code>COUNTBLANK</code>, <code>ATAN2</code>, and
+        <code>CHAR</code>. Each remaining case is declined loudly and never guessed;
+        this is the class that shrinks as function coverage grows, and it is the
+        direct measure of the engine's remaining scope. A shared-formula residual
+        that stood at 16.3% two result sets ago has been retired to zero; its cells
+        were re-attributed to their true downstream causes.
       </p>
     </div>
   </section>
@@ -294,24 +296,33 @@
       <p class="doc-links">
         Full definitions, classification rules, the integrity discipline, and the
         known caveats: <a href="METHODOLOGY.md">Methodology</a>. The dated measured
-        result sets: <a href="RESULTS.md">Results</a>.
+        result sets: <a href="RESULTS.md">Results</a>. The measured engine
+        comparison: <a href="LEADERBOARD.md">Leaderboard</a>.
       </p>
     </div>
   </section>
 
   <section class="section" id="leaderboard">
     <div class="container">
-      <h2>Leaderboard — in measurement</h2>
+      <h2>Leaderboard</h2>
       <p class="section-lede">
         Sheetmark is built as a comparative benchmark: same corpus, same oracle,
         same tolerance, and the same loud-versus-silent-failure axis for every
         engine.
       </p>
       <p class="section-lede">
-        No competitor number appears here until Sheetmark has actually measured that
-        engine. No engine's figure — including Recalc's own — is ever quoted from
-        memory or from a vendor's own claim. A comparative result requires a measured
-        competitor run first, and not one minute before.
+        The first measured comparison places Recalc next to LibreOffice Calc, pycel,
+        and formulas — every engine scored on the same 3,640-workbook corpus, the
+        same cached-value oracle, the same classifier, and the same funnel
+        arithmetic, in both the 15-significant-figure and bit-exact modes. The full
+        funnels, an external-workbook-reference decomposition, a glossary, and the
+        caveats are in the <a href="LEADERBOARD.md">Leaderboard</a>.
+      </p>
+      <p class="section-lede">
+        No engine's figure — including Recalc's own — is ever quoted from memory or
+        from a vendor's own claim. Every number on that page comes from a run through
+        the published harness, and no competitor appears until it has actually been
+        measured.
       </p>
     </div>
   </section>
@@ -324,12 +335,12 @@
           <summary>How accurate is it?</summary>
           <p>
             On the cells it computes, Recalc matched Excel's stored results on
-            98.884% of the 4,357,193 cells it attempted — 76.9% of a 5,667,851-cell
-            public corpus — at a documented 15-significant-figure tolerance; 97.857%
-            bit-exact with no tolerance at all. Genuine disagreements: 48,632 cells,
-            0.86% of the whole corpus, and a meaningful share of even those is Excel
+            98.637% of the 4,533,056 cells it attempted — 79.98% of a 5,667,851-cell
+            public corpus — at a documented 15-significant-figure tolerance; 97.497%
+            bit-exact with no tolerance at all. Genuine disagreements: 61,801 cells,
+            1.09% of the whole corpus, and a meaningful share of even those is Excel
             disagreeing with its own stored values, not the engine's math. Every cell
-            it can't compute faithfully — 23.12% of this corpus, 75.23% of it
+            it can't compute faithfully — 20.02% of this corpus, 86.90% of it
             referencing other workbooks we weren't given — is declined loudly rather
             than guessed, so you always know exactly which cells to trust.
           </p>
@@ -337,7 +348,7 @@
         <details>
           <summary>Why is the coverage-inclusive (strict) number lower than the engine (lenient) number?</summary>
           <p>
-            Because strict counts every declined cell as a miss — and 75.23% of those
+            Because strict counts every declined cell as a miss — and 86.90% of those
             declines reference other workbooks the corpus doesn't ship (external
             links). Recalc correctly refuses to fabricate those: no network, no
             filesystem from a formula. That is a refusal over missing inputs, not a
@@ -398,7 +409,7 @@
       Benchmark documents published under <a href="LICENSE">CC BY 4.0</a> — reuse
       with attribution. The underlying FUSE corpus carries its own CC-BY licensing
       from its authors. · <a href="METHODOLOGY.md">Methodology</a> ·
-      <a href="RESULTS.md">Results</a>
+      <a href="RESULTS.md">Results</a> · <a href="LEADERBOARD.md">Leaderboard</a>
     </p>
   </div>
 </footer>
