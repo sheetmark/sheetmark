@@ -532,10 +532,13 @@ and pure-reference cells that propagate a divergence from further up the depende
 chain. Characterized precisely: **more than three-quarters of the 15-significant-figure
 mismatch mass is small-magnitude numeric divergence** (relative error below 1e-4),
 concentrated in a small number of accumulation-order clusters in dense financial
-templates; the balance is upstream cascade where the engine is correct on the inputs it
-was handed (`RANK`'s 52 cells are the worked example). No genuinely-wrong function
-remains in the set. The residual is small-magnitude floating-point divergence plus
-upstream cascades — both bounded by the two noise floors above, which is why a clean
+templates; the balance is dominated by upstream cascade — cells where the divergence
+originates further up the dependency chain, with the engine correct on the inputs it
+was handed (`RANK`'s 52 cells are the worked example) — plus a handful of per-template
+idioms, of which the `SEARCH` text-idiom above is the largest. No broadly-wrong function
+remains in the set; every remaining cell carries its per-cell attribution. The residual
+is small-magnitude floating-point divergence plus upstream cascades — both bounded by the
+two noise floors above, which is why a clean
 100% is not on the table.
 
 ---

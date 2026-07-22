@@ -25,7 +25,7 @@ distinguishable sentinel such as `#UNSUPPORTED!` — is scored as *not attempted
 never counted as a match and never counted as a fidelity failure.
 
 That is a stronger guarantee than "accurate," and it is worth more to anyone who
-has to *defend* a number. A 99.99% engine that silently lies on the other 0.01%
+has to *defend* a number. A 99.99% engine that is silently wrong on the other 0.01%
 is worse than a 98% engine that tells you precisely which cells it couldn't do.
 A wrong number you can see is a footnote; a wrong number you can't see is a
 liability. Reliability isn't "usually right" — it's knowing exactly when not to

@@ -99,8 +99,9 @@ floating point — so a disagreement against the cache is not necessarily an eng
 error. Every mismatch cell carries a per-cell attribution. More than three-quarters
 of the 15-sig mismatch mass is small-magnitude numeric divergence (relative error
 below 1e-4), concentrated in a small number of accumulation-order clusters; the
-balance is upstream cascade where the engine is correct on the inputs it is handed
-(`RANK`'s 52 cells are the worked example). The full per-cell decomposition — by
+balance is dominated by upstream cascade where the engine is correct on the inputs it is
+handed (`RANK`'s 52 cells are the worked example), plus a handful of per-template idioms
+with per-cell attribution. The full per-cell decomposition — by
 function vocabulary, at both tolerances — and the two reference-side noise floors that
 put a clean 100% out of reach are in
 [Why 100% is not on the table](METHODOLOGY.md#why-100-is-not-on-the-table).
